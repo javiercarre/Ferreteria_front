@@ -1,0 +1,38 @@
+<app-navbar [nombre]="'EQUIPOS'"></app-navbar>
+
+<div class="row mt-2">
+  <!-- Maquina -->
+  <div class="col-12 mb-3 body-equipos" *ngFor="let herramienta of herramientas">
+    <div class="row">
+      <!-- Imagen -->
+      <div class="col-5 d-flex justify-content-end">
+        <img src="../../../assets/img/herramientas.png" alt="" width="100" height="100">
+      </div>
+
+      <!-- Informacion de maquina -->
+      <div class="col-5">
+        <span class="d-block fw-bold">{{herramienta.nombre}}</span>
+        <div class="d-block"><span class="fw-bold">Tipo: </span>{{herramienta.tipo}}</div>
+        <span class="d-block"><span class="fw-bold">Cantidad: </span>{{herramienta.cantidad}}</span>
+        <span class="d-block"><span class="fw-bold">Proveedor: </span>{{herramienta.proveedor}}</span>
+        <span class="d-block"><span class="fw-bold">Estado: </span>{{herramienta.estado}}</span>
+        <span class="d-block"><span class="fw-bold">Marca: </span>{{herramienta.marca}}</span>
+      </div>
+
+      <!-- Botones de accion -->
+      <div class="col-2">
+        <button type="button" class="btn btn-primary" style="margin: 4px" [routerLink]="['/registrar-maquinaria', herramienta.id]">Actualizar</button>
+
+        <button type="button" class="btn btn-danger" style="margin: 4px" (click)="eliminarMaquina(herramienta.id)">Eliminar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Botones -->
+<div class="row mt-5">
+  <div class="col-12 d-flex justify-content-between">
+    <button class="btn btn-primary" [routerLink]="['/informacion']">VOLVER</button>
+  </div>
+</div>

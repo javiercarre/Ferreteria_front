@@ -1,0 +1,77 @@
+<app-navbar [nombre]="'REGISTRAR PRODUCTO'"></app-navbar>
+
+<div class="row mt-2" [formGroup]="registroMaquinariaForm">
+  <!-- Columna Izquierda -->
+  <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+
+    <!-- NOMBRE -->
+    <input type="text" class="form-control mb-2" placeholder="NOMBRE" formControlName="nombre">
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.nombre.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+    <!-- TIPO -->
+    <select class="form-select mb-2" aria-label="Floating label select example" formControlName="tipo">
+      <option selected value="null">TIPO</option>
+      <option *ngFor="let tipoMaquina of tipos" [value]="tipoMaquina.id">{{ tipoMaquina.nombre }}</option>
+    </select>
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.tipo.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+    <!-- ESTADO -->
+    <select class="form-select mb-2" aria-label="Floating label select example" formControlName="estado">
+      <option selected value="null">ESTADO</option>
+      <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nombre }}</option>
+    </select>
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.estado.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+    <!-- CANTIDAD -->
+    <input type="text" class="form-control mb-2" placeholder="CANTIDAD" formControlName="cantidad">
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.cantidad.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+    <!-- PROVEEDOR -->
+    <select class="form-select mb-2" aria-label="Floating label select example" formControlName="proveedor">
+      <option selected value="null">PROVEEDOR</option>
+      <option *ngFor="let empresa of proveedores" [value]="empresa.id">{{ empresa.nombre }}</option>
+    </select>
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.proveedor.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+    <!-- MARCA -->
+    <select class="form-select mb-2" aria-label="Floating label select example" formControlName="marca">
+      <option selected value="null">MARCA</option>
+      <option *ngFor="let marca of marcas" [value]="marca.id">{{ marca.nombre }}</option>
+    </select>
+    <!-- Mensaje de error -->
+    <p class="red" *ngIf="this.enviado && this.registroMaquinariaForm.controls.marca.errors?.['required']">
+      * Este campo es obligatorio
+    </p>
+
+
+  </div>
+
+  <!-- Columna Derecha -->
+  <div class="col-6">
+    <img src="../../../assets/img/tipos-de-maquinaria-1.jpg" class="w-100" alt="">
+  </div>
+</div>
+
+<!-- Botones -->
+<div class="row mt-5">
+  <div class="col-12 d-flex justify-content-between">
+    <button class="btn btn-primary" [routerLink]="['/informacion']">VOLVER</button>
+    <button class="btn btn-primary" (click)="guardar()">GUARDAR</button>
+  </div>
+</div>
+
