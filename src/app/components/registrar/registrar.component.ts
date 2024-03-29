@@ -31,8 +31,7 @@ export class RegistrarComponent {
               private rolService: RolService
               ) {
     this.rolService.obtenerRoles().subscribe( (respuesta: any) => {
-      this.roles = respuesta.data;
-      console.log(respuesta.data);
+      this.roles = respuesta;
     });
   }
 
@@ -41,6 +40,7 @@ export class RegistrarComponent {
     this.enviado = true;
 
     if(this.formularioRegistro.valid){
+      console.log(this.formularioRegistro.value);
       this.authService.registrar(this.formularioRegistro.value).subscribe(respuesta => {
         Swal.fire({
           title: 'Éxito',

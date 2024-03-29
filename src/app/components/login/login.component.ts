@@ -30,13 +30,12 @@ export class LoginComponent {
     if (this.formularioLogin.valid) {
       this.authService.iniciarSesion(this.formularioLogin.value).subscribe((respuesta: any) => {
 
-        // Si el usuario y contrasena existen, entonces inicia sesion y lo redirige a la pagina principal
-        if (respuesta.success) {
+        if (respuesta) {
           this.router.navigate(['/informacion'])
-        } else { // Si no existe, entonces muestra el error de que el usuario no está registrado
+        } else {
           Swal.fire({
             title: 'Error',
-            text: 'Este usuario no está registrado',
+            text: 'Usuario o contraseña incorrectos',
             icon: 'error'
           });
         }

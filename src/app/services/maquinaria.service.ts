@@ -10,38 +10,38 @@ export class MaquinariaService {
   constructor(private http: HttpClient) { }
 
   obtenerMaquinas(){
-    return this.http.get(`${environment.apiUrl}/registrar-maquina/obtener-maquinas.php`);
+    return this.http.get(`${environment.apiUrl}/herramientas/consultaTodos`);
   }
 
   obtenerMaquina(id?: number){
-    return this.http.get(`${environment.apiUrl}/registrar-maquina/obtener-maquina.php?id=${id}`);
+    return this.http.get(`${environment.apiUrl}/herramientas/consultaUna/${id}`);
   }
 
   registrarMaquina(formularioMaquina: any) {
-    return this.http.post(`${environment.apiUrl}/registrar-maquina/registrar-maquinaria.php`, formularioMaquina);
+    return this.http.post(`${environment.apiUrl}/herramientas/guardar`, formularioMaquina);
   }
 
   obtenerMarcas(){
-    return this.http.get(`${environment.apiUrl}/marcas/marcas.php`);
+    return this.http.get(`${environment.apiUrl}/listas/marcas`);
   }
 
   obtenerTiposMaquina(){
-    return this.http.get(`${environment.apiUrl}/tipos-maquina/tipos-maquina.php`);
+    return this.http.get(`${environment.apiUrl}/listas/tipos`);
   }
 
   obtenerEstadosMaquina(){
-    return this.http.get(`${environment.apiUrl}/estados-maquina/estados-maquina.php`);
+    return this.http.get(`${environment.apiUrl}/listas/estados`);
   }
 
   obtenerEmpresas(){
-    return this.http.get(`${environment.apiUrl}/empresas/empresas.php`);
+    return this.http.get(`${environment.apiUrl}/listas/proveedores`);
   }
 
   eliminarMaquina(id: number){
-    return this.http.delete(`${environment.apiUrl}/registrar-maquina/eliminar-maquina.php?id=${id}`);
+    return this.http.delete(`${environment.apiUrl}/herramientas/eliminar/${id}`);
   }
 
-  actualizarMaquina(formularioMaquina: any){
-    return this.http.post(`${environment.apiUrl}/registrar-maquina/actualizar-maquina.php`, formularioMaquina);
+  actualizarMaquina(formularioMaquina: any, id: any){
+    return this.http.put(`${environment.apiUrl}/herramientas/actualizar/${id}`, formularioMaquina);
   }
 }

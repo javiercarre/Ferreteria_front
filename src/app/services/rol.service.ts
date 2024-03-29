@@ -10,6 +10,6 @@ export class RolService {
   constructor(private http: HttpClient) { }
 
   obtenerRoles(){
-    return this.http.get(`${environment.apiUrl}/rol/rol.php`);
+    return this.http.get(`${environment.apiUrl}/listas/roles`);
   }
 }

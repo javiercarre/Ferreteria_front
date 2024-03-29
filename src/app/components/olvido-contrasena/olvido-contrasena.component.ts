@@ -28,16 +28,16 @@ export class OlvidoContrasenaComponent {
       this.authService.verificarUsuario(this.formularioOlvido.value).subscribe( (respuesta: any) => {
         console.log(respuesta);
 
-        if(respuesta.success){
+        if(respuesta != 'error'){
           Swal.fire({
             title: 'Éxito',
-            text: `La contraseña del usuario ${this.formularioOlvido.controls.usuario.value} es ${respuesta.data}`,
+            text: `La contraseña del usuario ${this.formularioOlvido.controls.usuario.value} es ${respuesta}`,
             icon: 'success'
           });
         }else {
           Swal.fire({
             title: 'Error',
-            text: respuesta.message,
+            text: `El usuario ${this.formularioOlvido.controls.usuario.value} no existe`,
             icon: 'error'
           });
         }

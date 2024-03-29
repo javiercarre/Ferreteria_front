@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost/tegallmaquinaria_back'
+  apiUrl: 'http://localhost:8080'
 };

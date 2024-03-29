@@ -10,15 +10,17 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   iniciarSesion(formularioLogin: any) {
-    return this.http.post(`${environment.apiUrl}/login/login.php`, formularioLogin);
+    return this.http.post(`${environment.apiUrl}/login`, formularioLogin);
   }
 
   registrar(formularioRegistro: any){
-    return this.http.post( `${environment.apiUrl}/registrar/registrar.php`, formularioRegistro);
+    return this.http.post( `${environment.apiUrl}/registro`, formularioRegistro);
   }
 
   verificarUsuario(formularioOlvido: any){
-    return this.http.post( `${environment.apiUrl}/usuarios/verificar-usuario.php`, formularioOlvido);
+    return this.http.post( `${environment.apiUrl}/login/olvido-pass`, formularioOlvido, {
+      responseType: 'text'
+    });
   }
 
 }

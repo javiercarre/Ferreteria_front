@@ -23,7 +23,7 @@ export class EquiposComponent {
 
   eliminarMaquina(id: number) {
     this.maquinariaService.eliminarMaquina(id).subscribe( (respuesta: any) => {
-      if (respuesta.success){
+      if (respuesta){
         Swal.fire({
           title: 'Éxito',
           text: respuesta.message,

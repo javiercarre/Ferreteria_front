@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute, Data} from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MaquinariaService } from '../../services/maquinaria.service';
 
@@ -20,7 +20,6 @@ export class RegistroHerramientaComponent implements OnInit {
   public id = null; // Id del registro
 
   public enviado = false;
-  public imagenSeleccionada: File | null = null;
 
   public registroMaquinariaForm = this.fb.group({
     nombre: [null, [Validators.required]],
@@ -36,9 +35,13 @@ export class RegistroHerramientaComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private registroMaquinariaService: MaquinariaService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      // Ahora puedes usar this.id en tu componente
+    });
     const obtenerMarcasPromise = this.registroMaquinariaService.obtenerMarcas().toPromise();
     const obtenerTiposMaquinaPromise = this.registroMaquinariaService.obtenerTiposMaquina().toPromise();
     const obtenerEstadosMaquinaPromise = this.registroMaquinariaService.obtenerEstadosMaquina().toPromise();
@@ -51,17 +54,13 @@ export class RegistroHerramientaComponent implements OnInit {
       obtenerEmpresasPromise
     ]).then((respuestas: any[]) => {
 
-      // Respuesta 1: marcas
-      this.marcas = respuestas[0].data;
+      this.marcas = respuestas[0];
 
-      // Respuesta 2: tipos de maquina
-      this.tipos = respuestas[1].data;
+      this.tipos = respuestas[1];
 
-      // Respuesta 3: estados maquina
-      this.estados = respuestas[2].data;
+      this.estados = respuestas[2];
 
-      // Respuesta 4: empresas
-      this.proveedores = respuestas[3].data;
+      this.proveedores = respuestas[3];
 
       // Obtener el ID desde la URL
       this.route.paramMap.subscribe(params => {
@@ -84,11 +83,11 @@ export class RegistroHerramientaComponent implements OnInit {
       // Asignar los valores a los controles del formulario
       this.registroMaquinariaForm.patchValue({
         nombre: respuesta.nombre,
-        tipo: respuesta.id_tipo_maquina,
-        estado: respuesta.id_estado,
+        tipo: respuesta.idTipo.id,
+        estado: respuesta.idEstado.id,
         cantidad: respuesta.cantidad,
-        proveedor: respuesta.id_proveedor,
-        marca: respuesta.id_marca
+        proveedor: respuesta.idProveedor.id,
+        marca: respuesta.idMarca.id
       });
       this.id = respuesta.id;
     });
@@ -97,27 +96,28 @@ export class RegistroHerramientaComponent implements OnInit {
   guardar() {
     this.enviado = true;
     if (this.registroMaquinariaForm.valid) {
-      const formData = new FormData();
-      formData.append('id', this.id || '');
-      formData.append('nombre', this.registroMaquinariaForm.get('nombre')?.value || '');
-      formData.append('tipo', this.registroMaquinariaForm.get('tipo')?.value || '');
-      formData.append('estado', this.registroMaquinariaForm.get('estado')?.value || '');
-      formData.append('cantidad', this.registroMaquinariaForm.get('cantidad')?.value || '');
-      formData.append('proveedor', this.registroMaquinariaForm.get('proveedor')?.value || '');
-      formData.append('marca', this.registroMaquinariaForm.get('marca')?.value || '');
+      const data = {
+        id: this.id || '',
+        nombre: this.registroMaquinariaForm.get('nombre')?.value || '',
+        tipo: this.registroMaquinariaForm.get('tipo')?.value || '',
+        estado: this.registroMaquinariaForm.get('estado')?.value || '',
+        cantidad: this.registroMaquinariaForm.get('cantidad')?.value || '',
+        proveedor: this.registroMaquinariaForm.get('proveedor')?.value || '',
+        marca: this.registroMaquinariaForm.get('marca')?.value || '',
+      };
 
       if(this.crear){
-        this.registrarMaquina(formData);
+        this.registrarMaquina(data);
       } else if (this.editar) {
-        this.actualizarMaquina(formData);
+        this.actualizarMaquina(data);
       }
     }
   }
 
-  actualizarMaquina(formData: FormData){
-    this.registroMaquinariaService.actualizarMaquina(formData).subscribe(
+  actualizarMaquina(data: Data){
+    this.registroMaquinariaService.actualizarMaquina(data, this.id).subscribe(
       (respuesta: any) => {
-        if (respuesta.success) {
+        if (respuesta) {
           Swal.fire({
             title: 'Éxito',
             text: 'Herramienta actualizada correctamente',
@@ -145,10 +145,10 @@ export class RegistroHerramientaComponent implements OnInit {
     );
   }
 
-  registrarMaquina(formData: FormData){
-    this.registroMaquinariaService.registrarMaquina(formData).subscribe(
+  registrarMaquina(data: Data){
+    this.registroMaquinariaService.registrarMaquina(data).subscribe(
       (respuesta: any) => {
-        if (respuesta.success) {
+        if (respuesta) {
           Swal.fire({
             title: 'Éxito',
             text: 'Registro guardado con éxito',
